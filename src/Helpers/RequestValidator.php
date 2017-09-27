@@ -99,14 +99,24 @@ class RequestValidator
                                 break;
                             }
 
-                            if (preg_match('/@.*?;type=.*?\/.+$/', @$arg[0])) {
-                                $type = 'imagefile';
-                                $name = '@' . $name;
-                                $arg = @$arg[0];
-                            } else {
-                                $item_type = self::transformValueType(@gettype($arg[0]));
-                                $type = 'array(' . $item_type . ')';
+//                            if (preg_match('/@.*?;type=.*?\/.+$/', @$arg[0])) {
+//                                $type = 'imagefile';
+//                                $name = '@' . $name;
+//                                $arg = @$arg[0];
+//                            } else {
+                            $item_type = self::transformValueType(@gettype($arg[0]));
+                            $type = 'array(' . $item_type . ')';
+//                            }
+                        }
+
+                        break;
+
+                    case 'string':
+                        if ('imagefile' == $validType) {
+                            if (!is_file($arg)) {
+                                break;
                             }
+                            $type = 'imagefile';
                         }
 
                         break;

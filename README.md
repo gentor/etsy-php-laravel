@@ -94,24 +94,38 @@ return [
 ## Examples ##
 
 ```php
-print_r(Etsy::createShippingTemplate(array(
- 						'data' => array(
-							    "title" => "First API Template",
-							    "origin_country_id" => 209,
-							    "destination_country_id" => 209,
-							    "primary_cost" => 10.0,
-							    "secondary_cost" => 10.0
-							))));
+$shipping_template = [
+    'data' => [
+        "title" => "First API Template",
+        "origin_country_id" => 209,
+        "destination_country_id" => 209,
+        "primary_cost" => 10.0,
+        "secondary_cost" => 10.0
+    ]
+];
+print_r(Etsy::createShippingTemplate($shipping_template));
 
-# Upload local files: the item value must be an array with the first value as a string starting with "@":
-$listing_image = array(
-		'params' => array(
-			'listing_id' => '152326352'
-		),
-		'data' => array(
-			'image' => array('@/path/to/file.jpg;type=image/jpeg')
-));
+# Upload image files:
+
+$listing_image = [
+    'params' => [
+        'listing_id' => '152326352'
+    ],
+    'data' => [
+        'image' => '/path/to/file.jpg'
+    ]
+];
 print_r(Etsy::uploadListingImage($listing_image));
+
+$listing_file = [
+    'params' => [
+        'listing_id' => '152326352'
+    ],
+    'data' => [
+        'file' => '/path/to/file.jpg'
+    ]
+];
+print_r(Etsy::uploadListingFile($listing_file));
 
 ```
 

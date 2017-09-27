@@ -343,6 +343,10 @@ class EtsyApi
     {
         $url = $this->getEndpointUrl($path);
 
+        if ($file = $this->prepareFile($params)) {
+            $params = [];
+        }
+
         if ($this->tokenCredentials) {
             $headers = $this->server->getHeaders($this->tokenCredentials, $method, $url, $params);
             $options = [
@@ -355,7 +359,11 @@ class EtsyApi
         }
 
         if ('POST' == $method) {
-            $options['form_params'] = $params;
+            if ($file) {
+                $options['multipart'] = $file;
+            } else {
+                $options['form_params'] = $params;
+            }
         }
 
         try {
@@ -423,6 +431,24 @@ class EtsyApi
         }
 
         return $result;
+    }
+
+    /**
+     * @param $data
+     * @return array|bool
+     */
+    private function prepareFile($data)
+    {
+        if (!isset($data['image']) && !isset($data['file'])) {
+            return false;
+        }
+
+        $key = isset($data['image']) ? 'image' : 'file';
+
+        return [[
+            'name' => $key,
+            'contents' => fopen($data[$key], 'r')
+        ]];
     }
 
     /**
