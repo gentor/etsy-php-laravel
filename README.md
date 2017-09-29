@@ -47,28 +47,30 @@ All methods has only one argument, an array with two items (both are optional, d
   > Example:
   > [getSubSubCategory](http://www.etsy.com/developers/documentation/reference/category#method_getsubsubcategory): GET /categories/:tag/:subtag/:subsubtag
 ```php
-  # it will request /categories/tag1/subtag1/subsubtag1
-  Etsy::getSubSubCategory(array(
-          'params' => array(
-                         'tag' => 'tag1',
-                         'subtag' => 'subtag1',
-                         'subsubtag' => 'subsubtag1'
-           )));
+# it will request /categories/tag1/subtag1/subsubtag1
+Etsy::getSubSubCategory([
+    'params' => [
+        'tag' => 'tag1',
+        'subtag' => 'subtag1',
+        'subsubtag' => 'subsubtag1'
+    ]
+]);
 ```
 
 - *data*: an array with post data required by the method
   > Example:
   > [createShippingTemplate](http://www.etsy.com/developers/documentation/reference/shippingtemplate#method_createshippingtemplate): POST /shipping/templates
 ```php
-  # it will request /shipping/templates sending the "data" array as the post data
-  Etsy::createShippingTemplate(array(
-    						'data' => array(
-   							    "title" => "First API Template",
-   							    "origin_country_id" => 209,
-   							    "destination_country_id" => 209,
-   							    "primary_cost" => 10.0,
-   							    "secondary_cost" => 10.0
-           )));
+# it will request /shipping/templates sending the "data" array as the post data
+Etsy::createShippingTemplate([
+    'data' => [
+        "title" => "First API Template",
+        "origin_country_id" => 209,
+        "destination_country_id" => 209,
+        "primary_cost" => 10.0,
+        "secondary_cost" => 10.0
+    ]
+]);
 ```
 
 ## Get OAuth token credentials ##
@@ -162,31 +164,98 @@ $result = Etsy::getListing($args);
 To read more about associations: https://www.etsy.com/developers/documentation/getting_started/resources#section_associations
 
 ## JSON params ##
-There are some methods that Etsy requires to be a JSON string encoded param (ie: param "variations" for "createListingVariations"). For these cases, those params should be defined like this:
+There are some methods that Etsy requires to be a JSON string encoded param (ie: param "products" for "updateInventory"). For these cases, those params should be defined like this:
 ```php
-    $args = array(
-        'params' => array(
-            'listing_id' => 654321
-        ),
-        'data' => array(
-          'variations' => array(
-            'json' => json_encode(
-                array(
-                    array(
-                        'property_id' => 200,
-                        'value' => "Black"
-                    ),
-                    array(
-                        'property_id' => 200,
-                        'value' => "White"
-                    )
-                )
-            )
-        )
-      )
-    );
-
-    $result = Etsy::createListingVariations($args);
+Etsy::updateInventory([
+    'params' => [
+        'listing_id' => '546557344'
+    ],
+    'data' => [
+        'products' => [
+            'json' => json_encode([
+                [
+                    'sku' => 'sku-1',
+                    'property_values' => [
+                        [
+                            'property_id' => 200,
+                            'values' => 'red'
+                        ],
+                        [
+                            'property_id' => 52047899318,
+                            'value' => '57 cm'
+                        ]
+                    ],
+                    'offerings' => [
+                        [
+                            'price' => 10,
+                            'quantity' => 3
+                        ]
+                    ]
+                ],
+                [
+                    'sku' => 'sku-2',
+                    'property_values' => [
+                        [
+                            'property_id' => 200,
+                            'value' => 'red'
+                        ],
+                        [
+                            'property_id' => 52047899318,
+                            'value' => '68 cm'
+                        ]
+                    ],
+                    'offerings' => [
+                        [
+                            'price' => 11,
+                            'quantity' => 4
+                        ]
+                    ]
+                ],
+                [
+                    'sku' => 'sku-3',
+                    'property_values' => [
+                        [
+                            'property_id' => 200,
+                            'value' => 'blue'
+                        ],
+                        [
+                            'property_id' => 52047899318,
+                            'value' => '57 cm'
+                        ]
+                    ],
+                    'offerings' => [
+                        [
+                            'price' => 12,
+                            'quantity' => 5
+                        ]
+                    ]
+                ],
+                [
+                    'sku' => 'sku-4',
+                    'property_values' => [
+                        [
+                            'property_id' => 200,
+                            'value' => 'blue'
+                        ],
+                        [
+                            'property_id' => 52047899318,
+                            'value' => '68 cm'
+                        ]
+                    ],
+                    'offerings' => [
+                        [
+                            'price' => 13,
+                            'quantity' => 6
+                        ]
+                    ]
+                ],
+            ])
+        ],
+        'price_on_property' => [200, 52047899318],
+        'quantity_on_property' => [200, 52047899318],
+        'sku_on_property' => [200, 52047899318],
+    ],
+]);
 ```
 
 ## Documentation ##
