@@ -3,11 +3,12 @@
 namespace Gentor\Etsy;
 
 
+use Gentor\Etsy\Exceptions\EtsyRequestException;
 use Gentor\Etsy\Exceptions\EtsyResponseException;
 use Gentor\Etsy\Helpers\RequestValidator;
-use GuzzleHttp\Exception\BadResponseException;
+use Gentor\OAuth1Etsy\Client\Server\Etsy;
 use League\OAuth1\Client\Credentials\TokenCredentials;
-use Y0lk\OAuth1\Client\Server\Etsy;
+use GuzzleHttp\Exception\BadResponseException;
 
 /**
  * Class EtsyApi
@@ -358,7 +359,7 @@ class EtsyApi
             ];
         }
 
-        if ('POST' == $method) {
+        if (in_array($method, ['POST', 'PUT'])) {
             if ($file) {
                 $options['multipart'] = $file;
             } else {
@@ -554,7 +555,7 @@ class EtsyApi
         if (isset($this->methods[$method])) {
             $validArguments = RequestValidator::validateParams(@$args[0], $this->methods[$method]);
             if (isset($validArguments['_invalid'])) {
-                throw new \Exception('Invalid params for method "' . $method . '": ' . implode(', ', $validArguments['_invalid']) . ' - ' . json_encode($this->methods[$method]));
+                throw new EtsyRequestException('Invalid params for method "' . $method . '": ' . implode(', ', $validArguments['_invalid']) . ' - ' . json_encode($this->methods[$method]));
             }
 
             return call_user_func_array(array($this, 'request'), array(
@@ -568,7 +569,7 @@ class EtsyApi
                     )
                 )));
         } else {
-            throw new \Exception('Method "' . $method . '" not exists');
+            throw new EtsyRequestException('Method "' . $method . '" not exists');
         }
     }
 }

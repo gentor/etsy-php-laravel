@@ -39,7 +39,7 @@ class RequestValidator
         }
 
         if (isset($args['data'])) {
-            $dataResult = RequestValidator::validateData($args['data'], $methodInfo);
+            $dataResult = static::validateData($args['data'], $methodInfo);
             return array_merge($result, $dataResult);
         }
 
@@ -80,11 +80,11 @@ class RequestValidator
         foreach ($args as $name => $arg) {
             if (isset($methodsParams[$name])) {
                 $validType = $methodsParams[$name];
-                $type = self::transformValueType(gettype($arg));
+                $type = static::transformValueType(gettype($arg));
                 switch ($type) {
                     case 'array':
                         if (@array_key_exists('json', $arg)) {
-                            $type = 'json';
+                            $type = 'stringJSON';
                             $arg = $arg['json'];
                             break;
                         }
@@ -93,20 +93,14 @@ class RequestValidator
                             if (preg_match('@^map\(@', $validType)) {
                                 $valueTypes = array();
                                 foreach ($arg as $value) {
-                                    $valueTypes[] = self::transformValueType(gettype($value));
+                                    $valueTypes[] = static::transformValueType(gettype($value));
                                 }
                                 $type = 'map(' . implode($valueTypes, ', ') . ')';
                                 break;
                             }
 
-//                            if (preg_match('/@.*?;type=.*?\/.+$/', @$arg[0])) {
-//                                $type = 'imagefile';
-//                                $name = '@' . $name;
-//                                $arg = @$arg[0];
-//                            } else {
-                            $item_type = self::transformValueType(@gettype($arg[0]));
+                            $item_type = static::transformValueType(@gettype($arg[0]));
                             $type = 'array(' . $item_type . ')';
-//                            }
                         }
 
                         break;
@@ -136,13 +130,13 @@ class RequestValidator
                     } elseif ($type === 'json' && substr($validType, 0, 5) === 'array') {
                         $result['_valid'][$name] = $arg;
                     } else {
-                        $result['_invalid'][] = RequestValidator::invalidParamType($name, $arg, $type, $validType);
+                        $result['_invalid'][] = static::invalidParamType($name, $arg, $type, $validType);
                     }
                 } else {
                     $result['_valid'][$name] = $arg;
                 }
             } else {
-                $result['_invalid'][] = RequestValidator::invalidParam($name, gettype($arg));
+                $result['_invalid'][] = static::invalidParam($name, gettype($arg));
             }
         }
 

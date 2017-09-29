@@ -3,8 +3,8 @@
 namespace Gentor\Etsy;
 
 
+use Gentor\OAuth1Etsy\Client\Server\Etsy;
 use League\OAuth1\Client\Credentials\TokenCredentials;
-use Y0lk\OAuth1\Client\Server\Etsy;
 
 /**
  * Class EtsyService
@@ -80,7 +80,7 @@ class EtsyService
     public function getUserUid($force = false)
     {
         $userDetails = $this->getUserDetails($force);
-        
+
         return $userDetails->uid;
     }
 
