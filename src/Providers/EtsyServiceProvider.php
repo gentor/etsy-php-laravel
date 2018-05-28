@@ -26,7 +26,7 @@ class EtsyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('etsy', function ($app) {
-            return new EtsyService($app['config']['etsy']);
+            return new EtsyService($app, $app['config']['etsy']);
         });
     }
 
