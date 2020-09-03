@@ -9,8 +9,7 @@
         }
     ],
     "require": {
-        "league/oauth1-client": "^1.7",
-        "gentor/oauth1-etsy": "^1.0.3",
+        "gentor/oauth1-etsy": "^1.0.4",
         "illuminate/session": "^5.3"
     },
     "autoload": {
