@@ -6,11 +6,19 @@
         {
             "name": "Evgeni Nurkov",
             "email": "evgeni.nurkov@gmail.com"
+        },
+        {
+            "name": "Dan Richards",
+            "email": "danrichardsri@gmail.com"
+        },
+        {
+            "name": "Diogo Gomes",
+            "email": "diogogomeswww@gmail.com"
         }
     ],
     "require": {
         "gentor/oauth1-etsy": "^1.0.4",
-        "illuminate/session": "^5.3"
+        "illuminate/session": "^6"
     },
     "autoload": {
         "psr-4": {
