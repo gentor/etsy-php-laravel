@@ -4,9 +4,9 @@ namespace Gentor\Etsy;
 
 
 use Gentor\OAuth1Etsy\Client\Server\Etsy;
-use League\OAuth1\Client\Credentials\TokenCredentials;
 use Illuminate\Session\SessionManager;
 use Illuminate\Session\Store;
+use League\OAuth1\Client\Credentials\TokenCredentials;
 
 /**
  * Class EtsyService
@@ -35,7 +35,7 @@ class EtsyService
         $this->server = new Etsy([
             'identifier' => $config['consumer_key'],
             'secret' => $config['consumer_secret'],
-            'scope' => !empty($config['scope']) ? $config['scope'] : '',
+            'scope' => $config['scope'] ?? '',
             'callback_uri' => ''
         ]);
 
