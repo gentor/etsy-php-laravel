@@ -49,10 +49,10 @@ class EtsyService
     }
 
     /**
-     * @param $callbackUri
+     * @param string|null $callbackUri
      * @return string
      */
-    public function authorize($callbackUri)
+    public function authorize($callbackUri = null)
     {
         $this->server->getClientCredentials()->setCallbackUri($callbackUri);
 
