@@ -18,7 +18,7 @@
     ],
     "require": {
         "gentor/oauth1-etsy": "^1.0.4",
-        "illuminate/session": "^6"
+        "illuminate/session": "^6|^7|^8"
     },
     "autoload": {
         "psr-4": {
